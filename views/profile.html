@@ -1,6 +1,6 @@
 <h2>Perfil</h2>
 
-<p>{{titular.Nome}}, 
+<p>{{titular.Nome}},
     <span translate>seja bem-vindo(a)!</span>
 </p>
 
@@ -23,14 +23,12 @@
             </div>
         </h3>
 
-        <div class="form-group" ng-repeat="campo in atribuido" ng-if="(atribuido[0].atribuicao === 'Titular') || (titular.Wave === 0 && atribuido[0].atribuicao !== 'Acompanhante') || (titular.Wave === 1 && atribuido[0].atribuicao === 'Acompanhante')"
-            >
+        <div class="form-group" ng-repeat="campo in atribuido" ng-if="(atribuido[0].atribuicao === 'Titular') || (titular.Wave === 0 && atribuido[0].atribuicao !== 'Acompanhante') || (titular.Wave === 1 && atribuido[0].atribuicao === 'Acompanhante')">
 
             <!-- label padrao para todos os campos -->
 
             <label for="{{atribuido[0].atribuicao + campo.key}}">
-                <span ng-hide="campo.customLabel">{{campo.label}}</span>
-                <span>{{campo.customLabel}}</span>
+                <span>{{checkLabel(campo.label, campo.customLabel)}}</span>
                 <span ng-show="campo.obrigatorio">*</span>
                 <br>
                 <small> <em>{{campo.customPlaceholder | iif : campo.customPlaceholder : campo.placeholder}}</em></small>
@@ -86,6 +84,12 @@
 
         </div>
     </fieldset>
+    <div ng-if="userForm.$error" class="alert alert-danger">
+        <div class="alert-icon">
+            <i class="material-icons">error_outline</i>
+        </div>
+        Preencha o(s) campo(s) <span ng-repeat="campo in userForm.$error.required"><strong>{{ campo.$name | inputErrorLabel }}</strong>{{$last ? '' : ($index==userForm.$error.required.length-2) ? ' e ' : ', '}} </span> para prosseguir. Os campos com erro se encontram marcados com um X
+    </div>
     <button type="submit" class="btn btn-primary" ng-disabled="submitting || userForm.$invalid" ng-show="canSubmit()"><span
             translate>Enviar</span></button>
 </form>
